@@ -1,207 +1,75 @@
 package com.maik.APITemplate.models;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class User implements Serializable {
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "first_name" )
-    private String firstName;
+    @Length(max = 20, min = 3)
+    @Column(name = "username", length = 20)
+    private String username;
 
-    @Column(name = "last_name" )
-    private String lastName;
+    @Length(max = 60, min = 8)
+    @Column(name = "password", length = 60)
+    private String password;
 
-    @Column(name = "email_address")
-    private String email;
+    @Column(name = "enabled")
+    private Boolean enabled;
 
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at")
-    private Date createdAt;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "users_authorities")
+    private List<Role> roles;
 
-    @Column(name = "created_by")
-    @CreatedBy
-    private String createdBy;
-
-    @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at")
-    private Date updatedAt;
-
-    @Column(name = "updated_by")
-    @LastModifiedBy
-    private String updatedBy;
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
     public long getId() {
         return id;
     }
 
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
     public void setId(long id) {
         this.id = id;
     }
 
-    /**
-     * Gets first name.
-     *
-     * @return the first name
-     */
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    /**
-     * Sets first name.
-     *
-     * @param firstName the first name
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    /**
-     * Gets last name.
-     *
-     * @return the last name
-     */
-    public String getLastName() {
-        return lastName;
+    public String getPassword() {
+        return password;
     }
 
-    /**
-     * Sets last name.
-     *
-     * @param lastName the last name
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    /**
-     * Gets email.
-     *
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    /**
-     * Sets email.
-     *
-     * @param email the email
-     */
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
-    /**
-     * Gets created at.
-     *
-     * @return the created at
-     */
-    public Date getCreatedAt() {
-        return createdAt;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    /**
-     * Sets created at.
-     *
-     * @param createdAt the created at
-     */
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
-
-    /**
-     * Gets created by.
-     *
-     * @return the created by
-     */
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    /**
-     * Sets created by.
-     *
-     * @param createdBy the created by
-     */
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    /**
-     * Gets updated at.
-     *
-     * @return the updated at
-     */
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    /**
-     * Sets updated at.
-     *
-     * @param updatedAt the updated at
-     */
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    /**
-     * Gets updated by.
-     *
-     * @return the updated by
-     */
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    /**
-     * Sets updated by.
-     *
-     * @param updatedBy the updated by
-     */
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", createdAt=" + createdAt +
-                ", createdBy='" + createdBy + '\'' +
-                ", updatedAt=" + updatedAt +
-                ", updatedby='" + updatedBy + '\'' +
-                '}';
-    }
-
-
 }

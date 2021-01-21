@@ -78,8 +78,8 @@ public class UserController {
 
         User user = userService.getUserById(userId);
 
-        user.setEmail(userDetails.getEmail());
-        user.setLastName(userDetails.getLastName());
+        user.setUsername(userDetails.getUsername());
+        user.setPassword(userDetails.setPassword(););
         user.setFirstName(userDetails.getFirstName());
         user.setUpdatedAt(new Date());
         final User updatedUser = userService.save(user);
